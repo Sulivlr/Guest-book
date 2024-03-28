@@ -19,3 +19,18 @@ export const postMessageAsync = createAsyncThunk(
     return response.data;
   }
 );
+
+export const createMessage = createAsyncThunk<void, Message>(
+  'createMessage',
+  async (message) => {
+    const formData = new FormData();
+
+    formData.append('author', message.author)
+    formData.append('content', message.content)
+
+    if(message.image) {
+      formData.append('image', message.image)
+    }
+    await axios.post(`${backendURL}/messages`, formData);
+  }
+)

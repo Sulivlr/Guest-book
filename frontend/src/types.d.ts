@@ -1,8 +1,5 @@
 export interface Message {
-  id: string;
   author: string;
   content: string;
-  image: string;
+  image: file | null;
 }
-
-export type MessageWithoutId = Omit<Message, 'id'>;
