@@ -1,10 +1,9 @@
-function App() {
-
+const App = () => {
   return (
-    <>
-        <h1>Privet!</h1>
-    </>
-  )
-}
+    <div>
+      <h1>Privet Sultan!</h1>
+    </div>
+  );
+};
 
-export default App
+export default App;
