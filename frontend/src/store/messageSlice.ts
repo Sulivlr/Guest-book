@@ -1,6 +1,6 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { Message } from '../types';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { Message } from '../types';
 
 const backendURL = 'http://localhost:8000';
 
@@ -12,13 +12,14 @@ export const fetchMessagesAsync = createAsyncThunk(
   }
 );
 
-export const postMessageAsync = createAsyncThunk(
-  'messages/postMessage',
-  async (formData: FormData) => {
-    const response = await axios.post<Message>(`${backendURL}/messages`, formData);
+export const createMessageAsync = createAsyncThunk(
+  'messages/createMessage',
+  async (message: Message) => {
+    const response = await axios.post<Message>(`${backendURL}/messages`, message);
     return response.data;
   }
 );
+
 
 interface MessagesState {
   messages: Message[];
@@ -41,7 +42,7 @@ const messagesSlice = createSlice({
       .addCase(fetchMessagesAsync.pending, (state) => {
         state.status = 'loading';
       })
-      .addCase(fetchMessagesAsync.fulfilled, (state, action) => {
+      .addCase(fetchMessagesAsync.fulfilled, (state, action: PayloadAction<Message[]>) => {
         state.status = 'succeeded';
         state.messages = action.payload;
       })
@@ -49,7 +50,7 @@ const messagesSlice = createSlice({
         state.status = 'failed';
         state.error = action.error.message ?? 'Failed to fetch messages';
       })
-      .addCase(postMessageAsync.fulfilled, (state, action) => {
+      .addCase(createMessageAsync.fulfilled, (state, action: PayloadAction<Message>) => {
         state.messages.push(action.payload);
       });
   },

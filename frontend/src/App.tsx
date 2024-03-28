@@ -1,7 +1,11 @@
-const App = () => {
+import React from 'react';
+import MessagesPage from './components/MessagesPage.tsx';
+
+
+const App: React.FC = () => {
   return (
-    <div>
-      <h1>Privet Sultan!</h1>
+    <div className="App">
+      <MessagesPage />
     </div>
   );
 };
